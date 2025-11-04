@@ -1,0 +1,86 @@
+P_burglary_true = 0.002
+P_earthquake_true = 0.001
+
+P_alarm_given_b_and_e = 0.94
+P_alarm_given_b_and_no_e = 0.95
+P_alarm_given_no_b_and_e = 0.31
+P_alarm_given_no_b_and_no_e = 0.001
+
+P_david_calls_given_alarm = 0.9
+P_david_calls_given_no_alarm = 0.05
+P_david_does_not_call_given_alarm = 0.09
+P_david_does_not_call_given_no_alarm = 0.95
+
+P_sophia_calls_given_alarm = 0.75
+P_sophia_calls_given_no_alarm = 0.02
+P_sophia_does_not_call_given_alarm = 0.25
+P_sophia_does_not_call_given_no_alarm = 0.98
+
+
+def joint_probability(alarm, burglary, earthquake, david_calls, sophia_calls):
+    
+    if alarm:
+        if burglary and earthquake:
+            P_alarm = P_alarm_given_b_and_e
+        elif burglary:
+            P_alarm = P_alarm_given_b_and_no_e
+        elif earthquake:
+            P_alarm = P_alarm_given_no_b_and_e
+        else:
+            P_alarm = P_alarm_given_no_b_and_no_e
+    else: 
+        if burglary and earthquake:
+            P_alarm = 1 - P_alarm_given_b_and_e
+        elif burglary:
+            P_alarm = 1 - P_alarm_given_b_and_no_e
+        elif earthquake:
+            P_alarm = 1 - P_alarm_given_no_b_and_e
+        else:
+            P_alarm = 1 - P_alarm_given_no_b_and_no_e
+
+    if david_calls:
+        if alarm:
+            P_david = P_david_calls_given_alarm
+        else:
+            P_david = P_david_calls_given_no_alarm
+    else: 
+        if alarm:
+            P_david = P_david_does_not_call_given_alarm
+        else:
+            P_david = P_david_does_not_call_given_no_alarm
+            
+    if sophia_calls:
+        if alarm:
+            P_sophia = P_sophia_calls_given_alarm
+        else:
+            P_sophia = P_sophia_calls_given_no_alarm
+    else: 
+        if alarm:
+            P_sophia = P_sophia_does_not_call_given_alarm
+        else:
+            P_sophia = P_sophia_does_not_call_given_no_alarm
+
+    if burglary:
+        P_b = P_burglary_true
+    else:
+        P_b = 1 - P_burglary_true
+    
+    if earthquake:
+        P_e = P_earthquake_true
+    else:
+        P_e = 1 - P_earthquake_true
+        
+    result = P_alarm * P_david * P_sophia * P_b * P_e
+    
+    return result
+
+alarm = True
+burglary = False
+earthquake = False
+david_calls = True
+sophia_calls = True
+
+final_result = joint_probability(alarm, burglary, earthquake, david_calls, sophia_calls)
+
+print(f"The scenario is: Alarm={alarm}, Burglary={burglary}, Earthquake={earthquake}, David={david_calls}, Sophia={sophia_calls}")
+print(f"The final joint probability is: {final_result}")
