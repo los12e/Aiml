@@ -1,0 +1,25 @@
+colors = ['red', 'blue', 'green', 'yellow', 'black']
+states = ['Telangana', 'Karnataka', 'Tamilnadu', 'Kerala']
+neighbours = {}
+neighbours['Telangana'] = ['Karnataka', 'Tamilnadu']
+neighbours['Karnataka'] = ['Telangana', 'Tamilnadu', 'Kerala']
+neighbours['Tamilnadu'] = ['Telangana', 'Karnataka', 'Kerala']
+neighbours['Kerala'] = ['Karnataka', 'Tamilnadu']
+colors_of_states = {}
+def promising(state, color):
+    for neighbour in neighbours.get(state):
+        color_of_neighbour = colors_of_states.get(neighbour)
+        if color_of_neighbour == color:
+            return False
+    return True
+def get_color_for_state(state):
+    for color in colors:
+        if promising(state, color):
+            return color
+def main():
+    for state in states:
+        colors_of_states[state] = get_color_for_state(state)
+    print(colors_of_states)
+
+main()
+

@@ -1,0 +1,42 @@
+g={}
+def bfs(s):
+    v,q=set(),[s];
+    print("BFS:",end=" ")
+    while q:
+        x=q.pop(0)
+        if x not in v:
+            print(x,end=" ");
+            v.add(x);
+            q+=g[x]
+    print()
+
+def dfs(s,v=None):
+    if v is None:
+        v=set();
+        print("DFS:",end=" ")
+    if s not in v:
+        print(s,end=" ");
+        v.add(s)
+        for n in g[s]:
+            dfs(n,v)
+
+for _ in range(int(input("Nodes: "))):
+    while (n:=input("Node: ").strip()) in g:
+        print("Exists!")
+    g[n]=[]
+
+for _ in range(int(input("Edges: "))):
+    while True:
+        u,v=input("Edge u v: ").split()
+        if u in g and v in g and v not in g[u]:
+            g[u].append(v);
+            g[v].append(u);
+            break
+        print("Invalid/Exists!")
+
+s=input("Start: ")
+if s in g:
+    bfs(s);
+    dfs(s)
+else:
+    print("Not found")
